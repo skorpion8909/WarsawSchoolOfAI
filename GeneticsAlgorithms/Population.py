@@ -5,7 +5,7 @@
     Order determined the path: from first element of list to last element
     
     
-    1.) This class manage selection and crossover behavior
+    1.) This class manage selection, fitness and crossover fun
 
 '''
 

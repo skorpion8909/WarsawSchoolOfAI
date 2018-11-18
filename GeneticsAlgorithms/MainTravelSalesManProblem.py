@@ -18,6 +18,7 @@ def main():
     
     #initalize list of paths
     population = Population.Population(20,listOfCities)
+#     bestOne = Population.
 
 
 
