@@ -12,7 +12,7 @@
 import DNA
 import Salesman
 
-class Population(object):
+class Population:
 #------------------------------------------------------------------------------
     def __init__(self,populationSize,listOfPoints):
         # init list of possible Salesman paths

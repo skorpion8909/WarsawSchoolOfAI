@@ -7,7 +7,7 @@ import Genom
         
 '''
 
-class Dna(object):
+class Dna:
 #------------------------------------------------------------------------------------------------------------- 
     def __init__(self,list):
         #on init generates a list of genoms from list of points

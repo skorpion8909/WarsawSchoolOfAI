@@ -7,7 +7,7 @@
 
 """
 
-class Genom(object):
+class Genom:
 #------------------------------------------------------------------------------------------------
     def __init__(self,tuple):  #gest a tuple of x and y
         # init of genom
