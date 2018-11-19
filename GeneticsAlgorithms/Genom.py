@@ -16,5 +16,13 @@ class Genom:
     def __str__(self):
         return "(%s, %s)" %(self.tupleXY[0],self.tupleXY[1])
 #------------------------------------------------------------------------------------------------
+    def __eq__(self, other):
+       """class override equels method"""
+       if isinstance(other, self.__class__):
+           if self.tupleXY[0] == other.tupleXY[0] and self.tupleXY[1] == other.tupleXY[1]:
+               return True
+       else:
+           return False
+#------------------------------------------------------------------------------------------------        
 #Test
 # print(Genom((0,4)))

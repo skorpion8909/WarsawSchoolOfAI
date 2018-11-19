@@ -7,7 +7,7 @@
     *                                                                *
     ******************************************************************
     
-    1.) This class is main class for this procjet
+    1.) This class is main class for this project
 
 """
 import Population
@@ -18,8 +18,9 @@ def main():
     listOfCities = [(0,12),(12,5),(14,20),(45,5),(14,53),(1,8)]
     
     #initalize list of paths
-    population = Population.Population(20,listOfCities)
-#     bestOne = Population.
+    population = Population.Population(200,listOfCities)
+    population.nextGeneration()
+#   bestOne = Population.
 
 
 

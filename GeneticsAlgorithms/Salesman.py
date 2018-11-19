@@ -18,4 +18,11 @@ class Salesman:
     def __str__(self):
         return str(self.dna)
 #---------------------------------------------------------------------------
+    def __eq__(self, other):
+        """class override equels method"""
+        if self.dna == other.dna:
+             return True
+        else:
+            return False
+#---------------------------------------------------------------------------
 #TEST
