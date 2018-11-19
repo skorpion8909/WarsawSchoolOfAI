@@ -11,6 +11,7 @@
 
 """
 import Population
+import EvolutionManager
 
 def main():
     # list o points

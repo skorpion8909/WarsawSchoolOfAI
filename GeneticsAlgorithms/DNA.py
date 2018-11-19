@@ -23,7 +23,7 @@ class Dna:
         return listToReturn
 #-------------------------------------------------------------------------------------------------------------         
     # takes listOfGenoms as replace for current 
-    def setDdaList(self,listOfGenoms): 
+    def setDnaList(self,listOfGenoms): 
         self.list = list
 
 #-------------------------------------------------------------------------------------------------------------         

@@ -11,11 +11,10 @@ class Genom:
 #------------------------------------------------------------------------------------------------
     def __init__(self,tuple):  #gest a tuple of x and y
         # init of genom
-        self.x = tuple[0]
-        self.y = tuple[1]
+        self.tupleXY = tuple
 #------------------------------------------------------------------------------------------------
     def __str__(self):
-        return "(%s, %s)" %(self.x,self.y)
+        return "(%s, %s)" %(self.tupleXY[0],self.tupleXY[1])
 #------------------------------------------------------------------------------------------------
 #Test
-#print(Genom(0,4))
+# print(Genom((0,4)))
