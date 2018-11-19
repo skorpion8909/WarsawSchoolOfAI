@@ -62,7 +62,6 @@ class Population:
                 dictOfFitness[fitness].append(x)
             else:
                 dictOfFitness[fitness] = [x]
-        print(len(dictOfFitness))
         return dictOfFitness
 #------------------------------------------------------------------------------
 # Tests
