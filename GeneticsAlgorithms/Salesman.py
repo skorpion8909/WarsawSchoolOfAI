@@ -43,7 +43,7 @@ class Salesman:
             else:
                 return False
         else:
-            False
+            return False
 #------------------------------------------------------------------------------
     def countFitnes(self):
         """Count fitness for this Salesman"""
