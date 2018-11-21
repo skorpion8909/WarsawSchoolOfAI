@@ -36,8 +36,7 @@ class Salesman:
 #---------------------------------------------------------------------------
     def __eq__(self, other):
         """class override equels method"""
-        # this eq method is written poorly wont mirror this in your code
-        if self == other.__class__:
+        if type(self) == type(other):
             if self.dna == other.dna:
                  return True
             else:
@@ -47,7 +46,7 @@ class Salesman:
 #------------------------------------------------------------------------------
     def countFitnes(self):
         """Count fitness for this Salesman"""
-        listOfPoint = self.dna.list
+        listOfPoint = self.dna.chromosom
         running = True
         listCycle = cycle(listOfPoint)                  # this lets to take 2 elements of list every one step of loop
         # Prime the pump

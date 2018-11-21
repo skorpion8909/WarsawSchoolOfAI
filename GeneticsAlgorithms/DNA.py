@@ -3,19 +3,19 @@ import Genom
 
 '''
     This class represents represents possible solution as DNA
-    DNA is a list of genoms
+    DNA is a chromosom of genoms
         
 '''
 
 class Dna:
 #------------------------------------------------------------------------------------------------------------- 
-    def __init__(self,list):
-        #on init generates a list of genoms from list of points
-        self.list = self.makeListOfGenoms(list)
+    def __init__(self,listOfPoints):
+        #on init generates a chromosom of genoms from chromosom of points
+        self.chromosom = self.makeListOfGenoms(listOfPoints)
 #------------------------------------------------------------------------------------------------------------- 
     # set new DNA
     def makeListOfGenoms(self,listOfPoints):
-        # return list of genoms
+        # return chromosom of genoms
         listToReturn = list()
         for point in listOfPoints:
             listToReturn.append(Genom.Genom(point))
@@ -24,15 +24,15 @@ class Dna:
 #-------------------------------------------------------------------------------------------------------------         
     # takes listOfGenoms as replace for current 
     def setDnaList(self,listOfGenoms): 
-        self.list = list
+        self.chromosom = list
 #-------------------------------------------------------------------------------------------------------------         
     def __str__(self):
-        return "This DNA has\nThe first point as %s\nThe last point as %s" % (self.list[0],self.list[-1])
+        return "This DNA has\nThe first point as %s\nThe last point as %s" % (self.chromosom[0],self.chromosom[-1])
 #------------------------------------------------------------------------------------------------------------- 
     def __eq__(self, other):
         """class override equels method"""
         if isinstance(other, self.__class__):
-            if self.list == other.list:
+            if self.chromosom == other.chromosom:
                 return True
         else:
             return False
@@ -40,5 +40,5 @@ class Dna:
 # Test
 # dna = Dna([(0,5),(4,1),(44,55),(2,44)])
 # print(dna)    
-# for x in dna.list:
+# for x in dna.chromosom:
 #    print(x)
