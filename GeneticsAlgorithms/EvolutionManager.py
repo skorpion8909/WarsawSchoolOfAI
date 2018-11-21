@@ -15,7 +15,7 @@ class EvolutionManager:
         self.population = population
 #-------------------------------------------------------------------------------------------
     def startTraining(self):
-        """Start training sequence"""
+        """Starts training sequence"""
         for x in range(0,self.numOfGenerations):
             self.population.nextGeneration()
             print("Iteration num ",x,population)
