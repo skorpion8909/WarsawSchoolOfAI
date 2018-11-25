@@ -3,7 +3,7 @@ import Genom
 
 '''
     This class represents represents possible solution as DNA
-    DNA is a chromosom of genoms
+    DNA(one chromosom) is implemented as a list of genoms
         
 '''
 

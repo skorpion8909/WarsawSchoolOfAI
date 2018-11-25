@@ -5,7 +5,7 @@
     
 
 """
-
+import Population
 
 #-------------------------------------------------------------------------------------------
 class EvolutionManager:
@@ -18,7 +18,16 @@ class EvolutionManager:
         """Starts training sequence"""
         for x in range(0,self.numOfGenerations):
             self.population.nextGeneration()
-            print("Iteration num ",x,population)
+            print("Iteration num ",x,"Fitness of best one is ",self.population.bestSalesman)
 #-------------------------------------------------------------------------------------------
-#     def 
+
 #-------------------------------------------------------------------------------------------
+
+# Test
+listOfCities = [(0,12),(12,5),(14,20),(45,5),(14,53),(1,8),(22,11),(10,84),(90,23)]
+    
+#initalize list of paths
+population = Population.Population(50,listOfCities)
+population.nextGeneration()
+EM = EvolutionManager(20000,population)
+EM.startTraining()

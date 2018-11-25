@@ -18,7 +18,7 @@ def main():
     listOfCities = [(0,12),(12,5),(14,20),(45,5),(14,53),(1,8)]
     
     #initalize list of paths
-    population = Population.Population(200,listOfCities)
+    population = Population.Population(50,listOfCities)
     population.nextGeneration()
 #   bestOne = Population.
 
