@@ -12,7 +12,6 @@
 import DNA
 import Salesman
 import random as r
-from tensorflow.python.framework.test_ops import none
 from datetime import datetime
 
 #------------------------------------------------------------------------------
