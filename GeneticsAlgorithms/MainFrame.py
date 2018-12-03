@@ -15,35 +15,7 @@ import Population
 import multiprocessing as mp
 import time
 import threading as t
-#-------------------------------------------------------------------------------------     
-def di(p1,p2):
-    """ returns distance between points"""
-    return (m.sqrt(m.pow(p1[0] - p2[0],2)) + m.pow((p1[1] - p2[1]),2))
-#-------------------------------------------------------------------------------------     
-def genRandomListOfPoints(sizeOfList,height,width):
-    """ returns list with random points in range of window as tuple"""
-    listToReturn = list()
-    minimumDistance = 5
-    he = height - 10
-    wi = width - 10
-    notValidPoint = True
-    distanceIsCorrect = False
-    while len(listToReturn) < 10:
-        while notValidPoint:
-            randomPoint = (r.randint(10,he),r.randint(10,wi))
-            if len(listToReturn) == 0:
-                listToReturn.append(randomPoint)
-                break
-            for p in listToReturn:
-                if di(randomPoint,p) >= 5:
-                    distanceIsCorrect = True
-                else:
-                    distanceIsCorrect = False
-            if distanceIsCorrect:
-                listToReturn.append(randomPoint)
-                break
-        print(len(listToReturn))
-    return listToReturn
+import RandomMapGenerator as rmg
 #-------------------------------------------------------------------------------------     
 class MainFrame(tk.Tk):
     """ This is main class for managing different views(windows) """
@@ -123,9 +95,13 @@ class CanvasFrame(tk.Frame):
 #-------------------------------------------------------------------------------------     
 def genethicAlgorithmPart(event, manager):
     manager.startTraining(event)
+def addChangerListiner(manager,app,event):
+    thread = t.Thread(target = changeListiner, args = (manager,app,event,))
+    thread.start()
 def changeListiner(manager,app,event):
     lastBest = None
     best = None
+    print("Starting listiner thread")
     while True:
         print("x")
         event.wait()
@@ -135,16 +111,17 @@ def changeListiner(manager,app,event):
         event.clear()
     
 if __name__ == "__main__":
-    listOfCities = [(0,121),(112,5),(14,201),(45,88),(141,231),(1,8),(22,11),(101,84),(90,231)]
-    pop = Population.Population(200,listOfCities)
+#     listOfCities = [(631, 44), (612, 137), (441, 266), (447, 173), (52, 243), (104, 148), (333, 70), (474, 182), (419, 221), (238, 291), (264, 340), (290, 213), (332, 97), (473, 294), (188, 198), (180, 258), (433, 382), (394, 139)]
+    listOfCities = rmg.genRandomListOfPoints(15,800,400)
+    pop = Population.Population(400,listOfCities)
     manager = EvolutionManager.EvolutionManager(100,pop)
     event = mp.Event()
     pro = t.Thread(target = genethicAlgorithmPart, args = (event,manager,))
-    pro.start()
     app = MainFrame()
     app.getCurrentTopFrame().updateFrame(manager.population.bestSalesman.dna.getAsListOfTuple())
+    app.after(111, addChangerListiner(manager, app, event))
+    pro.start()
     app.mainloop()
-    app.after(1111, changeListiner(manager, app, event))
 #-------------------------------------------------------------------------------------     
 def mains(list):
     hei = 300
@@ -167,3 +144,4 @@ def mains(list):
     canvas.pack()
     tk.mainloop()
 # main()
+    

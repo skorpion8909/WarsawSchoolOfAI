@@ -22,16 +22,16 @@ class EvolutionManager:
         """Starts training sequence"""
         x = 0
         while True:
-            time.sleep(0.1) 
             while not self.pause:
 #                 for x in range(0,self.numOfGenerations):
                 self.population.nextGeneration()
                 event.set()
                 print("Iteration num ",x,"Fitness of best one is ",self.population.bestSalesman)
 #             self.canvas.updateFrame(self.population.bestSalesman.dna.getAsListOfTuple())
-                if x == 10:
+                if x == 10000:
                     self.pause = True;
                 x += 1
+                
 #-------------------------------------------------------------------------------------------
     def getList(self, li):
         print(li)

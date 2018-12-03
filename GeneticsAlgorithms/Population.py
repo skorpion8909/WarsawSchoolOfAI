@@ -140,6 +140,22 @@ class Population:
             if len(self.salesmanList) != self.populationSize:
                 self.salesmanList.append(offspring2)
 #------------------------------------------------------------------------------
+    def getRandInt(self,**kwargs):
+        if len(kwargs) == 1:
+           return r.randint(0,kwargs["size"]-1)
+        else:
+            while True:
+               ran = r.randint(0,kwargs["size"]-1)
+               if ran != kwargs["used"]:
+                   return ran 
+#------------------------------------------------------------------------------
+    def mutate(self,offspring, mutateChance):
+            for x in range(0,len(offspring)):
+                if 1 - r.uniform(0,1) > mutateChance:
+                    position1 = self.getRandInt(size = len(offspring),)
+                    position2 = self.getRandInt(size = len(offspring), used = position1)
+                    offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
+#------------------------------------------------------------------------------
     def crossoverPMX(self,parent1,parent2):
         """ returns 2 offspring(salesman object) from two 2 parents"""
         #Partially Mapped Crossover Operator
@@ -148,8 +164,13 @@ class Population:
         offspringDna1 = list()
         offspringDna2 = list()
         # get dna from parents
-        parent1Dna = parent1.dna.chromosom
         parent2Dna = parent2.dna.chromosom
+        parent1Dna = parent1.dna.chromosom
+      
+        # sets how often mutation will happen, 0 is never 1 is always
+        mutateChance = 0.3
+        self.mutate(parent1Dna,mutateChance)
+        self.mutate(parent2Dna,mutateChance)
         
         numOfPoints = len(parent1Dna)
         # -2 and after -1,  +1 makes sure that between split points there will always at least 1 value
@@ -180,13 +201,14 @@ class Population:
         # stage 3 takes care of every left spot in dna
         # if there is empty spot indicated as 0
         if offspringDna1.__contains__(0):
-            # fill dna
+            # fill rest of dna
             self.fillDna(offspringDna1, parent2Dna)
        # if there is empty spot indicated as 0
         if offspringDna2.__contains__(0):
-            # fill dna
+            # fill rest of dna
             self.fillDna(offspringDna2, parent1Dna)
-       
+        self.mutate(offspringDna2,mutateChance)
+        self.mutate(offspringDna1,mutateChance)
         return Salesman.Salesman(offspringDna1),Salesman.Salesman(offspringDna2)
 #------------------------------------------------------------------------------
 
@@ -218,7 +240,3 @@ class Population:
 # Test _str
 # p = Population(2500,[(0,4),(4,2),(5,2),(0,10),(4,12),(2,0),(12,8)])
 # print(p)
-
-
-
-
