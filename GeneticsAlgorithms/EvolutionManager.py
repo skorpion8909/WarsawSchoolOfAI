@@ -21,11 +21,13 @@ class EvolutionManager:
 #-------------------------------------------------------------------------------------------
     def displayPopulation(self):
         salesmanList = self.population.salesmanList
-        sorted_salesmanList = sorted(salesmanList, key=operator.attrgetter('fitness'))
-        for x in sorted_salesmanList:
-            string = ""
-            string = string.join(str(x.distance))
-        print("Value --> ",string)
+        sorted_salesmanList = sorted(salesmanList, key=operator.attrgetter('distance'))
+#         for x in sorted_salesmanList:
+#             string = ""
+#             distance = str(x.distance)
+#             string = string + " "+ distance
+        print("Best one ever",self.population.bestSalesman.distance)
+        print("Best from pop -->",sorted_salesmanList[0].distance)
 #-------------------------------------------------------------------------------------------
     def startTraining(self,event):
         """Starts training sequence"""

@@ -58,7 +58,8 @@ class Salesman:
         while running:
             p1, p2 = p2, next(listCycle)                # set p2 is na p1 and p2 is new next element from list
             distance += distanceBetweenPoints(p1,p2)    # count distance between points and sums it
-            if p2 == listOfPoint[-1]:                   # if p2 as the same as last point it means list is empty
+            if p2 == listOfPoint[-1]:
+                distance += distanceBetweenPoints(p2,listOfPoint[0])                   # if p2 as the same as last point it means list is empty
                 running = False                         # prevent next loop cycle
         return distance
 #---------------------------------------------------------------------------
