@@ -36,6 +36,13 @@ class Dna:
                 return True
         else:
             return False
+#------------------------------------------------------------------------------------------------------------- 
+    def getAsListOfTuple(self):
+        """ returns chromosom as a list of tuple"""
+        listToReturn = list()
+        for x in self.chromosom:
+            listToReturn.append((x.tupleXY[0],x.tupleXY[1]))
+        return listToReturn
 #-------------------------------------------------------------------------------------------------------------             
 # Test
 # dna = Dna([(0,5),(4,1),(44,55),(2,44)])

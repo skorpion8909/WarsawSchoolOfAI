@@ -17,6 +17,7 @@ import time
 import threading as t
 #-------------------------------------------------------------------------------------     
 def di(p1,p2):
+    """ returns distance between points"""
     return (m.sqrt(m.pow(p1[0] - p2[0],2)) + m.pow((p1[1] - p2[1]),2))
 #-------------------------------------------------------------------------------------     
 def genRandomListOfPoints(sizeOfList,height,width):
@@ -52,8 +53,9 @@ class MainFrame(tk.Tk):
         self.mainFrameIsVisible = False
         
         tk.Tk.__init__(self, *args, **kwargs)
+        # init main frame
         container = tk.Frame(self)
-
+        
         container.pack(side="top", fill="both", expand = True)
 
         container.grid_rowconfigure(0, weight=1)
@@ -66,13 +68,16 @@ class MainFrame(tk.Tk):
         self.frames[CanvasFrame] = frame
 
         frame.grid(row=0, column=0, sticky="nsew")
+        # load canvas
         self.show_frame(CanvasFrame)
         print("After main loop")
     def getCurrentTopFrame(self):
         return self.frames[CanvasFrame]
 #-------------------------------------------------------------------------------------     
     def show_frame(self, cont):
+        # add class to map
         frame = self.frames[cont]
+        # move canvas to front
         frame.tkraise()
         print("After tkrasie")
         print("after start")
@@ -103,7 +108,8 @@ class CanvasFrame(tk.Frame):
         pro.start()
  #-------------------------------------------------------------------------------------     
     def updateFrame(self,listOfPoints):
-#         self.canvas.delete("all")
+        """ draws all points"""
+        self.canvas.delete("all")
         for y in listOfPoints:
             self.canvas.create_oval(y[0], y[1], y[0]+5, y[1]+5, fill="Black")
         li = cycle(listOfPoints)
@@ -115,15 +121,9 @@ class CanvasFrame(tk.Frame):
                 self.canvas.create_line(p2[0],p2[1],listOfPoints[0][0]+2,listOfPoints[0][1]+2)
         self.canvas.pack()
 #-------------------------------------------------------------------------------------     
-if __name__ == "__main__":
-    event = mp.Event()
-    lock = mp.RLock()
-    listOfCities = [(0,121),(112,5),(14,201),(45,88),(141,231),(1,8),(22,11),(101,84),(90,231)]
-    pop = Population.Population(200,listOfCities)
-    manager = EvolutionManager.EvolutionManager(100,pop,lock)
-    pro = t.Thread(target = manager.startTraining, args = (event,))
-    pro.start()
-    app = MainFrame()
+def genethicAlgorithmPart(event, manager):
+    manager.startTraining(event)
+def changeListiner(manager,app,event):
     lastBest = None
     best = None
     while True:
@@ -133,8 +133,18 @@ if __name__ == "__main__":
         if lastBest is not best:
             app.getCurrentTopFrame().updateFrame(best.dna.getAsListOfTuple())
         event.clear()
-    app.mainloop()
     
+if __name__ == "__main__":
+    listOfCities = [(0,121),(112,5),(14,201),(45,88),(141,231),(1,8),(22,11),(101,84),(90,231)]
+    pop = Population.Population(200,listOfCities)
+    manager = EvolutionManager.EvolutionManager(100,pop)
+    event = mp.Event()
+    pro = t.Thread(target = genethicAlgorithmPart, args = (event,manager,))
+    pro.start()
+    app = MainFrame()
+    app.getCurrentTopFrame().updateFrame(manager.population.bestSalesman.dna.getAsListOfTuple())
+    app.mainloop()
+    app.after(1111, changeListiner(manager, app, event))
 #-------------------------------------------------------------------------------------     
 def mains(list):
     hei = 300

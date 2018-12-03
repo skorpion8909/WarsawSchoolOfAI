@@ -37,6 +37,7 @@ def doesNotHaveTheSameDNA(salesman,listOfSalesmen):
 class Population:
     def __init__(self,populationSize,listOfPoints):
         """init list of possible Salesman paths"""
+        startTime = datetime.now()
         self.populationSize = populationSize
         # end program if starting len of list with points is less then 3
         if len(listOfPoints) <= 2:
@@ -53,6 +54,8 @@ class Population:
             # init new DNA and add to list
             self.salesmanList.append(Salesman.Salesman(listOfPoints)) 
         self.summedFitness = self.getSummedFitnessAndSetBestOne()
+        print("New generation was done in ",(datetime.now() - startTime).total_seconds())
+
  #------------------------------------------------------------------------------      
     def getSummedFitnessAndSetBestOne(self):
         """ return summed fitness and sets best salesman as variable"""
