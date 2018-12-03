@@ -1,4 +1,5 @@
-import pyperclip
+if __name__ == "__name__":
+    import pyperclip
 import random as r
 import math as m
 #--------------------------------------------------------------------------------
@@ -29,7 +30,8 @@ def genRandomListOfPoints(sizeOfList,height,width):
                 listToReturn.append(randomPoint)
                 break
         print(len(listToReturn))
-    # add to clipboard
-    pyperclip.copy(str(listToReturn))
+    if __name__ == "__name__":    
+        # add to clipboard
+        pyperclip.copy(str(listToReturn))
     return listToReturn
 #--------------------------------------------------------------------------------
