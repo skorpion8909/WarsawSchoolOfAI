@@ -3,7 +3,7 @@
     ******************************************************************
     *                                                                *
     * Travel Sales Man problem is a type of problem where we can use *
-    * genethic algorithm to find better ans faster answear.          *
+    * genethic algorithm to find better and faster answer.          *
     *                                                                *
     ******************************************************************
     
