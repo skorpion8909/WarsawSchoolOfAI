@@ -9,6 +9,7 @@ import Population
 import MainFrame
 import multiprocessing as mp
 import time
+import operator
 #-------------------------------------------------------------------------------------------
 class EvolutionManager:
     def __init__(self, numOfGenerations,population):
@@ -18,6 +19,14 @@ class EvolutionManager:
         self.pause = False
         print("After init EvolutionManager")
 #-------------------------------------------------------------------------------------------
+    def displayPopulation(self):
+        salesmanList = self.population.salesmanList
+        sorted_salesmanList = sorted(salesmanList, key=operator.attrgetter('fitness'))
+        for x in sorted_salesmanList:
+            string = ""
+            string = string.join(str(x.distance))
+        print("Value --> ",string)
+#-------------------------------------------------------------------------------------------
     def startTraining(self,event):
         """Starts training sequence"""
         x = 0
@@ -25,6 +34,7 @@ class EvolutionManager:
             while not self.pause:
 #                 for x in range(0,self.numOfGenerations):
                 self.population.nextGeneration()
+                self.displayPopulation()
                 event.set()
                 print("Iteration num ",x,"Fitness of best one is ",self.population.bestSalesman)
 #             self.canvas.updateFrame(self.population.bestSalesman.dna.getAsListOfTuple())

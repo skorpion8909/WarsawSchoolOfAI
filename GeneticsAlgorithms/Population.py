@@ -135,7 +135,7 @@ class Population:
         for x in range(0,leftSpace):
             parent1 = r.choice(nextPopulation)
             parent2 = r.choice(nextPopulation)
-            offspring1,offspring2 = self.crossoverPMX(parent1,parent2)
+            offspring1,offspring2 = self.crossoverMy(parent1,parent2)
             self.salesmanList.append(offspring1)
             if len(self.salesmanList) != self.populationSize:
                 self.salesmanList.append(offspring2)
@@ -150,11 +150,12 @@ class Population:
                    return ran 
 #------------------------------------------------------------------------------
     def mutate(self,offspring, mutateChance):
-            for x in range(0,len(offspring)):
-                if 1 - r.uniform(0,1) > mutateChance:
-                    position1 = self.getRandInt(size = len(offspring),)
-                    position2 = self.getRandInt(size = len(offspring), used = position1)
-                    offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
+        for x in range(0,len(offspring)):
+            if 1 - r.uniform(0,1) < mutateChance:
+                position1 = self.getRandInt(size = len(offspring),)
+                position2 = self.getRandInt(size = len(offspring), used = position1)
+                print(position1,"  ", position2)
+                offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
 #------------------------------------------------------------------------------
     def crossoverPMX(self,parent1,parent2):
         """ returns 2 offspring(salesman object) from two 2 parents"""
@@ -223,18 +224,12 @@ class Population:
 #------------------------------------------------------------------------------
     def crossoverMy(self,parent1,parent2):
         """ returns 2 offspring(salesman object) from two 2 parents"""
-        # parents are equal in lenght
-        numOfPoints = len(parent1.dna.chromosom)-1  # -1 because counting of list starts from 0 not 1
-        rsp = r.randint(1,numOfPoints) # random split point
-        # take genes from 0 to cut point
-        offsrping1 = list(parent1.dna.chromosom[0:rsp])
-        # take genoms from cut point to last genom and add
-        offsrping1.extend(parent2.dna.chromosom[rsp:])
-        # the same for second one
-        offsrping2 = list(parent2.dna.chromosom[0:rsp])
-        offsrping2.extend(parent1.dna.chromosom[rsp:])
-        
-        return Salesman.Salesman(offsrping1),Salesman.Salesman(offsrping2)
+        offspringDna2 = parent2.dna.chromosom
+        offspringDna1 = parent1.dna.chromosom
+        mutateChance = 0.6
+        self.mutate(offspringDna2,mutateChance)
+        self.mutate(offspringDna1,mutateChance)
+        return Salesman.Salesman(offspringDna1),Salesman.Salesman(offspringDna2)
 #------------------------------------------------------------------------------    
 # Tests
 # Test _str

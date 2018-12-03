@@ -26,10 +26,13 @@ class Salesman:
     def __init__(self,listOfPoints):
         x = r.sample(listOfPoints, len(listOfPoints))
         self.dna = DNA.Dna(x)
-        self.fitness = 1.0/self.countFitnes()              
+        self.distance = self.countFitnes()
+        self.fitness = 1.0/self.distance              
 #---------------------------------------------------------------------------
     def setDnaList(self,list):
         self.dna.setDnaList(list)
+        self.distance = self.countFitnes()
+        self.fitness = 1.0/self.distance 
 #---------------------------------------------------------------------------
     def __str__(self):
         return str("Fitness is " + str(self.fitness) +" "+ str(self.dna))

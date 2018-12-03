@@ -27,7 +27,6 @@ class MainFrame(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         # init main frame
         container = tk.Frame(self)
-        
         container.pack(side="top", fill="both", expand = True)
 
         container.grid_rowconfigure(0, weight=1)
@@ -93,7 +92,7 @@ class CanvasFrame(tk.Frame):
                 self.canvas.create_line(p2[0],p2[1],listOfPoints[0][0]+2,listOfPoints[0][1]+2)
         self.canvas.pack()
 #-------------------------------------------------------------------------------------     
-def genethicAlgorithmPart(event, manager):
+def genethicAlgorithmPart(event):
     manager.startTraining(event)
 def addChangerListiner(manager,app,event):
     thread = t.Thread(target = changeListiner, args = (manager,app,event,))
@@ -116,32 +115,11 @@ if __name__ == "__main__":
     pop = Population.Population(400,listOfCities)
     manager = EvolutionManager.EvolutionManager(100,pop)
     event = mp.Event()
-    pro = t.Thread(target = genethicAlgorithmPart, args = (event,manager,))
+    pro = t.Thread(target = genethicAlgorithmPart, args = (event,))
     app = MainFrame()
     app.getCurrentTopFrame().updateFrame(manager.population.bestSalesman.dna.getAsListOfTuple())
     app.after(111, addChangerListiner(manager, app, event))
     pro.start()
     app.mainloop()
 #-------------------------------------------------------------------------------------     
-def mains(list):
-    hei = 300
-    wid = 400
-    tk = Tk()
-    canvas = Canvas(tk, width = wid, height = hei)
-    pointsList = list
-    x = 10
-    print(pointsList)
-    for y in pointsList:
-        canvas.create_oval(y[0], y[1], y[0]+5, y[1]+5, fill="Black")
-        x += 10
-    li = cycle(pointsList)
-    p2 = next(li)
-    for x in pointsList:
-        p1,p2 = p2, next(li)
-        canvas.create_line(p1[0],p1[1],p2[0]+2,p2[1]+2)
-        if p2 == pointsList[-1]:
-            canvas.create_line(p2[0],p2[1],pointsList[0][0]+2,pointsList[0][1]+2)
-    canvas.pack()
-    tk.mainloop()
-# main()
     
