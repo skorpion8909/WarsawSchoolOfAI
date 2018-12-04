@@ -24,31 +24,39 @@ import MainFrame
 
 #-------------------------------------------------------------------------------------
 def genethicAlgorithmPart(event,manager):
+    """begins the training sequence"""
     manager.startTraining(event)
 def addChangerListiner(manager,app,event):
+    """ makes a new thread in widget process to monitor changes to be displayed"""
     thread = t.Thread(target = changeListiner, args = (manager,app,event,))
     thread.start()
 def changeListiner(manager,app,event):
+    """ contains logic for cheking for changes and updatting them"""
     lastBest = None
     best = None
     print("Starting listiner thread")
     while True:
         print("x")
+        #wait for info about event
         event.wait()
+        #get new possible best one and old one store for future comparing
         lastBest, best = best,manager.population.bestSalesman
         if lastBest is not best:
+            # if new one is really better then update the drawing on canvas
             app.getCurrentTopFrame().updateFrame(best.dna.getAsListOfTuple())
+        # clear event so it could be set again
         event.clear()
 if __name__ == "__main__":
 #     listOfCities = [(631, 44), (612, 137), (441, 266), (447, 173), (52, 243), (104, 148), (333, 70), (474, 182), (419, 221), (238, 291), (264, 340), (290, 213), (332, 97), (473, 294), (188, 198), (180, 258), (433, 382), (394, 139)]
-    listOfCities = rmg.genRandomListOfPoints(15,800,400)
-    pop = Population.Population(400,listOfCities)
+    listOfCities = rmg.genRandomListOfPoints(101,800,400)
+    pop = Population.Population(1011,listOfCities)
     manager = EvolutionManager.EvolutionManager(100,pop)
     event = mp.Event()
     pro = t.Thread(target = genethicAlgorithmPart, args = (event,manager))
     app = MainFrame.MainFrame()
+    app.setForClosingEvent(manager)
     app.getCurrentTopFrame().updateFrame(manager.population.bestSalesman.dna.getAsListOfTuple())
-    app.after(111, addChangerListiner(manager, app, event))
     pro.start()
+    addChangerListiner(manager, app, event)
     app.mainloop()
 #-------------------------------------------------------------------------------------

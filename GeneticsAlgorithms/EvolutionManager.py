@@ -17,6 +17,7 @@ class EvolutionManager:
         self.numOfGenerations = numOfGenerations
         self.population = population
         self.pause = False
+        self.stop = False
         print("After init EvolutionManager")
 #-------------------------------------------------------------------------------------------
     def displayPopulation(self):
@@ -32,18 +33,21 @@ class EvolutionManager:
     def startTraining(self,event):
         """Starts training sequence"""
         x = 0
-        while True:
-            while not self.pause:
+        while not self.stop:
+            while not self.pause and not self.stop:
 #                 for x in range(0,self.numOfGenerations):
+                # generate next population
                 self.population.nextGeneration()
+                # display on consol info about new population
                 self.displayPopulation()
+              # notify about new best solution
                 event.set()
                 print("Iteration num ",x,"Fitness of best one is ",self.population.bestSalesman)
 #             self.canvas.updateFrame(self.population.bestSalesman.dna.getAsListOfTuple())
-                if x == 10000:
+                if x == 1000000:
                     self.pause = True;
                 x += 1
-                
+                print(self.stop)
 #-------------------------------------------------------------------------------------------
     def getList(self, li):
         print(li)
@@ -52,3 +56,8 @@ class EvolutionManager:
             listToReturn.append((x.tupleXY[0],x.tupleXY[1]))
         return listToReturn
 #-------------------------------------------------------------------------------------------
+    def stopMainLoop(self):
+        """ sets stop to True for ending mainloop"""
+        self.stop = True
+
+

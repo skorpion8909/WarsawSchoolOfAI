@@ -16,14 +16,18 @@ import time
 import threading as t
 import RandomMapGenerator as rmg
 import CanvasFrame
+import sys
 #-------------------------------------------------------------------------------------     
 class MainFrame(tk.Tk):
     """ This is main class for managing different views(windows) """
+    def onClosing(self):
+        print("Closing program")
+        self.destroy()
+        print("Za destroy")
+        self.manager.stopMainLoop()
+        print("po stop")
+#-------------------------------------------------------------------------------------     
     def __init__(self, *args, **kwargs):
-        
-        # for notifing that Tkiner is 100% loaded
-        self.mainFrameIsVisible = False
-        
         tk.Tk.__init__(self, *args, **kwargs)
         # init main frame
         container = tk.Frame(self)
@@ -31,7 +35,7 @@ class MainFrame(tk.Tk):
 
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-
+        # for closing event
         self.frames = {}
 
         frame = CanvasFrame.CanvasFrame(container, self)
@@ -42,6 +46,8 @@ class MainFrame(tk.Tk):
         # load canvas
         self.show_frame(CanvasFrame)
         print("After main loop")
+        # add close window event handler
+        self.protocol("WM_DELETE_WINDOW", self.onClosing)
     def getCurrentTopFrame(self):
         return self.frames[CanvasFrame]
 #-------------------------------------------------------------------------------------     
@@ -52,5 +58,9 @@ class MainFrame(tk.Tk):
         frame.tkraise()
         print("After tkrasie")
         print("after start")
+#-------------------------------------------------------------------------------------     
+    def setForClosingEvent(self, manager):
+        """ sets thread variable for future stoping when app is being closed"""
+        self.manager = manager
 #-------------------------------------------------------------------------------------     
     

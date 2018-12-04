@@ -65,6 +65,7 @@ class Population:
             fit = x.fitness
             sum += fit
             if fit > self.bestSalesman.fitness:
+                # set new best salesman
                 self.bestSalesman = x
         return sum
 #------------------------------------------------------------------------------
@@ -140,6 +141,7 @@ class Population:
                 self.salesmanList.append(offspring2)
 #------------------------------------------------------------------------------
     def getRandInt(self,**kwargs):
+        """ returns random int in rage of list size -1"""
         if len(kwargs) == 1:
            return r.randint(0,kwargs["size"]-1)
         else:
@@ -168,9 +170,9 @@ class Population:
         parent1Dna = parent1.dna.chromosom
       
         # sets how often mutation will happen, 0 is never 1 is always
-        mutateChance = 0.1
-#         self.mutate(parent1Dna,mutateChance)
-#         self.mutate(parent2Dna,mutateChance)
+        mutateChance = 0.2
+        self.mutate(parent1Dna,mutateChance)
+        self.mutate(parent2Dna,mutateChance)
         
         numOfPoints = len(parent1Dna)
         # -2 and after -1,  +1 makes sure that between split points there will always at least 1 value
