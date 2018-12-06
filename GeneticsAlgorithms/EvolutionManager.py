@@ -11,12 +11,13 @@ import time
 import operator
 #-------------------------------------------------------------------------------------------
 class EvolutionManager:
-    def __init__(self, numOfGenerations,population):
+    def __init__(self, numOfGenerations,population,algoType):
         """Takes number of generations and Population() object"""
         self.numOfGenerations = numOfGenerations
         self.population = population
         self.pause = False
         self.stop = False
+        self.algoType = algoType
         print("After init EvolutionManager")
 #-------------------------------------------------------------------------------------------
     def displayPopulation(self):
@@ -36,7 +37,8 @@ class EvolutionManager:
             while not self.pause and not self.stop:
 #                 for x in range(0,self.numOfGenerations):
                 # generate next population
-                self.population.nextGeneration()
+                if "pmx" in self.algoType:
+                    self.population.nextGeneration()
                 # display on consol info about new population
                 self.displayPopulation()
               # notify about new best solution

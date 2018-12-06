@@ -14,7 +14,7 @@ import time
 import threading as t
 import RandomMapGenerator as rmg
 import CanvasFrame
-import sys
+import RandomMapGenerator as rmg
 #-------------------------------------------------------------------------------------     
 class StartFrame(tk.Tk):
     """ This is main class for starting different windows based on choosen options"""
@@ -73,12 +73,14 @@ class StartFrame(tk.Tk):
     def start(self):
         """inits comparison of choosen functions"""
         # cheks if corrent value is inserted
+        correct = True
         try:
             self.populationSizeVal = int(self.populationSize.get())
         except ValueError:
             # if is not then notify that
             self.populationSize.delete(0,tk.END)
             self.populationSize.insert(0,"This was not an INT!")
+            correct = False
         # cheks if corrent value is inserted
         try:
             self.numOfPointsVal = int(self.numOfPoints.get())
@@ -86,12 +88,51 @@ class StartFrame(tk.Tk):
             # if is not then notify that
             self.numOfPoints.delete(0,tk.END)
             self.numOfPoints.insert(0,"This was not an INT!")
-        
-        for x,y in self.checkBoxDict.items():
-            print(x,y.get())
-            
-        # close this windows, it is longer no necessary
-        self.destroy()
+            correct = False
+        if correct:
+            listOfCities = rmg.genRandomListOfPoints(self.numOfPointsVal,800,400)
+            for x,y in self.checkBoxDict.items():
+                if y.get():
+                    mp.Process(target = InitFrame(), args = (listOfCities, self.numOfPointsVal, x))
+                # close this windows, it is longer no necessary
+            self.destroy()
 #-------------------------------------------------------------------------------------     
-app = StartFrame()
-app.mainloop()
+class InitFrame:
+    """ This class contains all function to start training different algo in seperate windows"""
+#-------------------------------------------------------------------------------------     
+    def __init__(self,listOfPoints, popSize, algoType):
+        listOfCities = rmg.genRandomListOfPoints(101,800,400)
+        pop = Population.Population(1011,listOfCities)
+        self.manager = EvolutionManager.EvolutionManager(100,pop,algoType)
+        self.event = mp.Event()
+        pro = t.Thread(target = genethicAlgorithmPart, args = (self.event,self.manager))
+        self.app = MainFrame.MainFrame()
+        self.app.setForClosingEvent(self.manager)
+        pro.start()
+        addChangerListiner()
+        self.app.mainloop()
+#-------------------------------------------------------------------------------------     
+    def genethicAlgorithmPart():
+        """ begins the training sequence"""
+        manager.startTraining()
+#-------------------------------------------------------------------------------------     
+    def addChangerListiner():
+        """ makes a new thread in widget process to monitor changes to be displayed"""
+        thread = t.Thread(target = changeListiner, args = (self.manager,self.app,self.event,))
+        thread.start()
+#-------------------------------------------------------------------------------------     
+    def changeListiner():
+        """ contains logic for cheking for changes and updatting them"""
+        lastBest = None
+        best = None
+        while True:
+            #wait for info about event
+            self.event.wait()
+            #get new possible best one and old one store for future comparing
+            lastBest, best = best,self.manager.population.bestSalesman
+            if lastBest is not best:
+                # if new one is really better then update the drawing on canvas
+                self.app.getCurrentTopFrame().updateFrame(best.dna.getAsListOfTuple())
+            # clear event so it could be set again
+            self.event.clear()
+#-------------------------------------------------------------------------------------     

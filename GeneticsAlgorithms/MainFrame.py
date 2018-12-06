@@ -32,19 +32,18 @@ class MainFrame(tk.Tk):
 
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-
+        # init frames dict
         self.frames = {}
-
+        # init canvas
         frame = CanvasFrame.CanvasFrame(container, self)
-
+        # add frame to frames dict
         self.frames[CanvasFrame] = frame
-
+        # expend frame
         frame.grid(row=0, column=0, sticky="nsew")
-        # load canvas
-        self.show_frame(CanvasFrame)
-        print("After main loop")
         # add close window event handler
         self.protocol("WM_DELETE_WINDOW", self.onClosing)
+        # load canvas
+        self.show_frame(CanvasFrame)
     def getCurrentTopFrame(self):
         return self.frames[CanvasFrame]
 #-------------------------------------------------------------------------------------     
