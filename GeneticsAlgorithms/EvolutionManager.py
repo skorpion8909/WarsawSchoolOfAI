@@ -6,7 +6,6 @@
 
 """
 import Population
-import MainFrame
 import multiprocessing as mp
 import time
 import operator
