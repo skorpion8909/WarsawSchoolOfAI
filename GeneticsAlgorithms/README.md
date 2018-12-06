@@ -1,0 +1,1 @@
+To start this program just type `python StartFrame.py` in your consol
