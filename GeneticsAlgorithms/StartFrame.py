@@ -21,11 +21,8 @@ import sys
 class MainFrame(tk.Tk):
     """ This is main class for managing different views(windows) """
     def onClosing(self):
-        print("Closing program")
         self.destroy()
-        print("Za destroy")
         self.manager.stopMainLoop()
-        print("po stop")
 #-------------------------------------------------------------------------------------     
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -35,7 +32,7 @@ class MainFrame(tk.Tk):
 
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        # for closing event
+
         self.frames = {}
 
         frame = CanvasFrame.CanvasFrame(container, self)
