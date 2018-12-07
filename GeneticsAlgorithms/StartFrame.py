@@ -15,6 +15,7 @@ import threading as t
 import RandomMapGenerator as rmg
 import CanvasFrame
 import RandomMapGenerator as rmg
+import MainFrame
 #-------------------------------------------------------------------------------------     
 class StartFrame(tk.Tk):
     """ This is main class for starting different windows based on choosen options"""
@@ -91,37 +92,43 @@ class StartFrame(tk.Tk):
             correct = False
         if correct:
             listOfCities = rmg.genRandomListOfPoints(self.numOfPointsVal,800,400)
-            for x,y in self.checkBoxDict.items():
-                if y.get():
-                    mp.Process(target = InitFrame(), args = (listOfCities, self.numOfPointsVal, x))
-                # close this windows, it is longer no necessary
+            for algoType, isChoosen in self.checkBoxDict.items():
+                if isChoosen.get():
+                    print(algoType)
+                    p = mp.Process(target = self.run(listOfCities,  self.numOfPointsVal, algoType))
+                    p.start()
+            # close this windows, it is longer no necessary
             self.destroy()
+#-------------------------------------------------------------------------------------
+    def run(self, listOfCities, numOfPointsVal, algoType):
+        """ Starts other window from new process"""
+        t =  InitFrame(listOfCities, numOfPointsVal , algoType)
 #-------------------------------------------------------------------------------------     
 class InitFrame:
     """ This class contains all function to start training different algo in seperate windows"""
 #-------------------------------------------------------------------------------------     
     def __init__(self,listOfPoints, popSize, algoType):
-        listOfCities = rmg.genRandomListOfPoints(101,800,400)
+        listOfCities = listOfPoints
         pop = Population.Population(1011,listOfCities)
         self.manager = EvolutionManager.EvolutionManager(100,pop,algoType)
         self.event = mp.Event()
-        pro = t.Thread(target = genethicAlgorithmPart, args = (self.event,self.manager))
+        pro = t.Thread(target = self.genethicAlgorithmPart)
         self.app = MainFrame.MainFrame()
         self.app.setForClosingEvent(self.manager)
         pro.start()
-        addChangerListiner()
+        self.addChangerListiner()
         self.app.mainloop()
 #-------------------------------------------------------------------------------------     
-    def genethicAlgorithmPart():
+    def genethicAlgorithmPart(self):
         """ begins the training sequence"""
-        manager.startTraining()
+        self.manager.startTraining(self.event)
 #-------------------------------------------------------------------------------------     
-    def addChangerListiner():
+    def addChangerListiner(self):
         """ makes a new thread in widget process to monitor changes to be displayed"""
-        thread = t.Thread(target = changeListiner, args = (self.manager,self.app,self.event,))
+        thread = t.Thread(target = self.changeListiner(), args = (self,))
         thread.start()
 #-------------------------------------------------------------------------------------     
-    def changeListiner():
+    def changeListiner(self):
         """ contains logic for cheking for changes and updatting them"""
         lastBest = None
         best = None
