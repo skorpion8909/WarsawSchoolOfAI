@@ -38,6 +38,7 @@ class StartFrame(tk.Tk):
         # add rest of controlers
         self.addControlers()
         print("")
+        self.mainloop()
 #-------------------------------------------------------------------------------------     
     def addControlers(self):
         """sets rest of gui"""
