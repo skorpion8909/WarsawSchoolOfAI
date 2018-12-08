@@ -3,7 +3,7 @@
     based on choosen starting options
 
 """
-
+import os
 import random as r
 from itertools import cycle
 import tkinter as tk
@@ -16,6 +16,7 @@ import RandomMapGenerator as rmg
 import CanvasFrame
 import RandomMapGenerator as rmg
 import MainFrame
+import subprocess
 #-------------------------------------------------------------------------------------     
 class StartFrame(tk.Tk):
     """ This is main class for starting different windows based on choosen options"""
@@ -80,7 +81,7 @@ class StartFrame(tk.Tk):
         except ValueError:
             # if is not then notify that
             self.populationSize.delete(0,tk.END)
-            self.populationSize.insert(0,"This was not an INT!")
+            self.populationSize.insert(0,"This was not an INT! 1 will make bug")
             correct = False
         # cheks if corrent value is inserted
         try:
@@ -88,29 +89,31 @@ class StartFrame(tk.Tk):
         except ValueError:
             # if is not then notify that
             self.numOfPoints.delete(0,tk.END)
-            self.numOfPoints.insert(0,"This was not an INT!")
+            self.numOfPoints.insert(0,"This was not an INT! PS. 1 will make bug")
             correct = False
         if correct:
             listOfCities = rmg.genRandomListOfPoints(self.numOfPointsVal,800,400)
             for algoType, isChoosen in self.checkBoxDict.items():
                 if isChoosen.get():
                     print(algoType)
-                    p = mp.Process(target = self.run(listOfCities,  self.numOfPointsVal, algoType))
+                    p = mp.Process(target = self.run(listOfCities,  self.populationSizeVal, algoType))
                     p.start()
-            # close this windows, it is longer no necessary
-            self.destroy()
+            # close this window, it is longer no necessary
 #-------------------------------------------------------------------------------------
-    def run(self, listOfCities, numOfPointsVal, algoType):
+    def run(self, listOfCities, populationSizeVal, algoType):
         """ Starts other window from new process"""
-        t =  InitFrame(listOfCities, numOfPointsVal , algoType)
+        filePath = os.path.dirname(os.path.realpath(__file__))
+        command = f"python {filePath}/Test.py {listOfCities} {populationSizeVal} {algoType}"
+        print(command)
+        subprocess.Popen(command)
 #-------------------------------------------------------------------------------------     
 class InitFrame:
     """ This class contains all function to start training different algo in seperate windows"""
 #-------------------------------------------------------------------------------------     
     def __init__(self,listOfPoints, popSize, algoType):
         listOfCities = listOfPoints
-        pop = Population.Population(1011,listOfCities)
-        self.manager = EvolutionManager.EvolutionManager(100,pop,algoType)
+        pop = Population.Population(popSize,listOfCities)
+        self.manager = EvolutionManager.EvolutionManager(pop,algoType)
         self.event = mp.Event()
         pro = t.Thread(target = self.genethicAlgorithmPart)
         self.app = MainFrame.MainFrame()

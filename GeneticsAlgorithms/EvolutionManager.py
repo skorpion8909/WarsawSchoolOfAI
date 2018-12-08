@@ -11,9 +11,10 @@ import time
 import operator
 #-------------------------------------------------------------------------------------------
 class EvolutionManager:
-    def __init__(self, numOfGenerations, population, algoType):
+    def __init__(self, population, algoType):
         """Takes number of generations and Population() object"""
-        self.numOfGenerations = numOfGenerations
+        # this one is no used right now
+        self.numOfGenerations = 100
         self.population = population
         self.pause = False
         self.stop = False
