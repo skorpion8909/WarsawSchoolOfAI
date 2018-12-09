@@ -5,7 +5,7 @@ import math as m
 #--------------------------------------------------------------------------------
 def di(p1,p2):
     """ returns distance between points"""
-    return m.sqrt(m.pow(p1[0] - p2[0],2) + m.pow(p1[1] - p2[1],2))
+    return (m.sqrt(m.pow(p1[0] - p2[0],2)) + m.pow((p1[1] - p2[1]),2))
 #--------------------------------------------------------------------------------
 def genRandomListOfPoints(sizeOfList,height,width):
     """ returns list with random points in range of window as tuple"""

@@ -34,22 +34,16 @@ def doesNotHaveTheSameDNA(salesman,listOfSalesmen):
     return returnValue
 #------------------------------------------------------------------------------
 class Population:
-    def __init__(self, populationSize, listOfPoints, mutateChance, mutateRate):
+    def __init__(self,populationSize,listOfPoints):
         """init list of possible Salesman paths"""
         startTime = datetime.now()
-        # set mutate change
-        self.mutateChance = mutateChance
         self.populationSize = populationSize
         # end program if starting len of list with points is less then 3
         if len(listOfPoints) <= 2:
             sys.exit("The size of list with points must be grater then ",len(listOfPoints),".");
         self.salesmanList = list()
         # determine how often mutation will happen
-        self.mutateRate = mutateRate
-        if int(round(self.populationSize*self.mutateRate/100)) < 1:
-            self.howManyPoints = 1
-        else:
-            self.howManyPoints = int(round(self.populationSize*self.mutateRate/100)) 
+        self.mutationRate = 0.05
         # if populationSize is less then 3
         if populationSize <= 3:
             print("Population size must be bigger then ",populationSize,"\n","Population size set to 10")
@@ -60,6 +54,7 @@ class Population:
             self.salesmanList.append(Salesman.Salesman(listOfPoints)) 
         self.summedFitness = self.getSummedFitnessAndSetBestOne()
         print("New generation was done in ",(datetime.now() - startTime).total_seconds())
+
  #------------------------------------------------------------------------------      
     def getSummedFitnessAndSetBestOne(self):
         """ return summed fitness and sets best salesman as variable"""
@@ -70,7 +65,6 @@ class Population:
             fit = x.fitness
             sum += fit
             if fit > self.bestSalesman.fitness:
-                # set new best salesman
                 self.bestSalesman = x
         return sum
 #------------------------------------------------------------------------------
@@ -136,7 +130,6 @@ class Population:
     def fillRestOfListWithSalesmenFromCrossover(self,nextPopulation):
         """ sets list of salesman with new generated salesmen """
         leftSpace = self.populationSize - len(nextPopulation)
-        print(leftSpace, " <-----------")
         self.salesmanList = list(nextPopulation)
         for x in range(0,leftSpace):
             parent1 = r.choice(nextPopulation)
@@ -147,7 +140,6 @@ class Population:
                 self.salesmanList.append(offspring2)
 #------------------------------------------------------------------------------
     def getRandInt(self,**kwargs):
-        """ returns random int in rage of list size -1"""
         if len(kwargs) == 1:
            return r.randint(0,kwargs["size"]-1)
         else:
@@ -156,14 +148,12 @@ class Population:
                if ran != kwargs["used"]:
                    return ran 
 #------------------------------------------------------------------------------
-    def mutate(self,offspring):
+    def mutate(self,offspring, mutateChance):
         """ swaps randomly two elements of list"""
-        
-        for x in range(0,r.randint(0,self.howManyPoints)):
-            if 1 - r.uniform(0,1) < self.mutateChance:
-                position1 = self.getRandInt(size = len(offspring),)
-                position2 = self.getRandInt(size = len(offspring), used = position1)
-                offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
+        if 1 - r.uniform(0,1) < mutateChance:
+            position1 = self.getRandInt(size = len(offspring),)
+            position2 = self.getRandInt(size = len(offspring), used = position1)
+            offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
 #------------------------------------------------------------------------------
     def crossoverPMX(self,parent1,parent2):
         """ returns 2 offspring(salesman object) from two 2 parents"""
@@ -177,10 +167,9 @@ class Population:
         parent1Dna = parent1.dna.chromosom
       
         # sets how often mutation will happen, 0 is never 1 is always
-#         if self.mutateChance > r.uniform(0,1):
-#             self.mutate(parent1Dna)
-#         if self.mutateChance > r.uniform(0,1):
-#             self.mutate(parent2Dna)
+        mutateChance = 0.1
+#         self.mutate(parent1Dna,mutateChance)
+#         self.mutate(parent2Dna,mutateChance)
         
         numOfPoints = len(parent1Dna)
         # -2 and after -1,  +1 makes sure that between split points there will always at least 1 value
@@ -217,8 +206,8 @@ class Population:
         if offspringDna2.__contains__(0):
             # fill rest of dna
             self.fillDna(offspringDna2, parent1Dna)
-        self.mutate(offspringDna2)
-        self.mutate(offspringDna1)
+        self.mutate(offspringDna2,mutateChance)
+        self.mutate(offspringDna1,mutateChance)
         return Salesman.Salesman(offspringDna1),Salesman.Salesman(offspringDna2)
 #------------------------------------------------------------------------------
 

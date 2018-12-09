@@ -16,54 +16,55 @@ import time
 import threading as t
 import RandomMapGenerator as rmg
 import CanvasFrame
-import sys
-import StartFrame
 #-------------------------------------------------------------------------------------     
 class MainFrame(tk.Tk):
     """ This is main class for managing different views(windows) """
     def onClossing(self):
         self.manager.stopMainLoop()
         self.destroy()
-#-------------------------------------------------------------------------------------     
+#------------------------------------------------------------------------------------- 
     def __init__(self, *args, **kwargs):
+        
+        # for notifing that Tkiner is 100% loaded
+        self.mainFrameIsVisible = False
+        
         tk.Tk.__init__(self, *args, **kwargs)
         # init main frame
         container = tk.Frame(self)
-        container.grid(row = 0, column = 0, sticky = "nwse")
-#         container.grid_rowconfigure(0, weight=1)
-#         container.grid_columnconfigure(0, weight=1)
-         
-        # init dict for storing avaliable frames
+        container.pack(side="top", fill="both", expand = True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
         self.frames = {}
-        # init frame add to dict
+
         frame = CanvasFrame.CanvasFrame(container, self)
+
         self.frames[CanvasFrame] = frame
         
-        # init frame add to dict
-        frame = StartFrame.StartFrame(container, self)
-        self.frames[StartFrame] = frame
+        frame.grid(row=0, column=0, sticky="nsew")
 
-        
-        # add close window event handler
+         # add close window event handler
         self.protocol("WM_DELETE_WINDOW", self.onClossing)
-        # load canvas as first
+        # load canvas
         self.show_frame(CanvasFrame)
-#------------------------------------------------------------------------------------- 
-    def show_frame(self, cont):
-        """ makes choosen frame visibale at top"""
-        # get window
-        self.topFrame = self.frames[cont]
-        # .lift() should also works
-        # make window in front
-        self.topFrame.tkraise()
-        # set gird position
 #-------------------------------------------------------------------------------------     
     def getCurrentTopFrame(self):
-        """ returns top frame object"""
-        return self.topFrame
+        return self.currentTop
+#-------------------------------------------------------------------------------------     
+    def show_frame(self, cont):
+        # add class to map
+        frame = self.frames[cont]
+        
+        self.currentTop = frame
+        
+        # move canvas to front
+        frame.tkraise()
+        print("After tkrasie")
+        print("after start")
 #-------------------------------------------------------------------------------------     
     def setForClossingEvent(self, manager):
         """ sets thread variable for future stoping when app is being closed"""
         self.manager = manager
-#-------------------------------------------------------------------------------------     
+#------------------------------------------------------------------------------------- 
     
