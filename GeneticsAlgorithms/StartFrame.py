@@ -29,7 +29,7 @@ class StartFrame(tk.Frame):
         self.checkBoxDict = dict()
         
         container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(2, weight=1)
+        container.grid_columnconfigure(0, weight=1)
 
         # add start info
         entryInfo = tk.Label(text = "Choose your settings, one window running different algorithm will be open for every check box checked")
@@ -91,5 +91,4 @@ class StartFrame(tk.Frame):
         
         if self.checkBoxDict["pmx"].get():
             self.controller.show_frame(CanvasFrame)
-                    # close this windows, it is longer no necessary
 #-------------------------------------------------------------------------------------     

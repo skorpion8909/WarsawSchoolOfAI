@@ -17,7 +17,8 @@ class CanvasFrame(tk.Frame):
         wid = 800
         hei = 400
         self.canvas = tk.Canvas(self, width = wid, height = hei)
-        self.canvas.pack()
+        self.canvas.grid(row = 0, column = 0, columnspan = 10,sticky = "nswe")
+#         self.canvas.pack(side = "top", fill = "both", expand = True)
 #-------------------------------------------------------------------------------------     
     def start(self):
 #         pro = Process( target = self.manager.startTraining(), args = ())

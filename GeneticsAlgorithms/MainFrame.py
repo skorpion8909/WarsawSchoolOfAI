@@ -29,38 +29,39 @@ class MainFrame(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         # init main frame
         container = tk.Frame(self)
-
+        
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-
+        
+        # init dict for storing avaliable frames
         self.frames = {}
         
-#         frame = StartFrame.StartFrame(container, self)
-#         self.frames[StartFrame] = frame
-#         frame.grid(row = 0, column = 0, sticky = "nwse")
+        # init frame add to dict
+        frame = StartFrame.StartFrame(container, self)
+        self.frames[StartFrame] = frame
 
+        # init frame add to dict
         frame = CanvasFrame.CanvasFrame(container, self)
         self.frames[CanvasFrame] = frame
-        frame.grid(row = 0, column = 0, sticky = "nwse")
         
         # add close window event handler
         self.protocol("WM_DELETE_WINDOW", self.onClosing)
-        # load canvas
+        # load canvas as first
         self.show_frame(CanvasFrame)
 #------------------------------------------------------------------------------------- 
+    def show_frame(self, cont):
+        """ makes choosen frame visibale at top"""
+        # get window
+        frame = self.frames[cont]
+        # .lift() should also works
+        # make window in front
+        frame.tkraise()
+        # set gird position
+        frame.grid(row = 0, column = 0, sticky = "nwse")
+#-------------------------------------------------------------------------------------     
     def getCurrentTopFrame(self):
         """ returns top frame object"""
         return self.topFrame
-#-------------------------------------------------------------------------------------     
-    def show_frame(self, cont):
-        # add class to map
-        frame = self.frames[cont]
-        print(frame)
-        # move canvas to front
-        print("Tk trise Przed")
-        # self.topFrame.lift() should also works
-        frame.tkraise()
-        print("po")
 #-------------------------------------------------------------------------------------     
     def setForClosingEvent(self, manager):
         """ sets thread variable for future stoping when app is being closed"""
