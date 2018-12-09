@@ -48,16 +48,6 @@ def changeListiner(manager,app,event):
         event.clear()
 if __name__ == "__main__":
 #     listOfCities = [(631, 44), (612, 137), (441, 266), (447, 173), (52, 243), (104, 148), (333, 70), (474, 182), (419, 221), (238, 291), (264, 340), (290, 213), (332, 97), (473, 294), (188, 198), (180, 258), (433, 382), (394, 139)]
-    listOfCities = rmg.genRandomListOfPoints(11,800,400)
-    mutateChance = 0.25
-    mutateRate = 0.25
-    pop = Population.Population(2222,listOfCities, mutateChance, mutateRate)
-    manager = EvolutionManager.EvolutionManager(300,pop)
-    event = mp.Event()
-    pro = t.Thread(target = genethicAlgorithmPart, args = (event,manager))
     app = MainFrame.MainFrame()
-    app.setForClossingEvent(manager)
-    pro.start()
-    addChangerListiner(manager, app, event)
     app.mainloop()
 #-------------------------------------------------------------------------------------

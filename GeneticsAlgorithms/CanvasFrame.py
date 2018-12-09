@@ -12,12 +12,13 @@ class CanvasFrame(tk.Frame):
     """ This is main class for managing displaying visual changes to a path"""
 #-------------------------------------------------------------------------------------     
     def __init__(self, parent, controller):
+        self.rootWindow = parent
+        self.controller = controller
         tk.Frame.__init__(self,parent)
-        self.rootWindow = controller
         wid = 800
         hei = 400
         self.canvas = tk.Canvas(self, width = wid, height = hei)
-        self.canvas.pack(side = "top", fill = "both", expand = True)
+        self.canvas.grid(row = 0, column = 0,sticky = "nswe")
 #-------------------------------------------------------------------------------------     
     def start(self):
 #         pro = Process( target = self.manager.startTraining(), args = ())

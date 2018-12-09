@@ -21,6 +21,8 @@ class StartFrame(tk.Frame):
 #-------------------------------------------------------------------------------------     
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
+        self.rootWindow = parent
+        self.controller = controller
         # init main frame
         self.controller = controller
         container = tk.Frame(self, width=500, height=300)
@@ -31,43 +33,42 @@ class StartFrame(tk.Frame):
         # add start info
         entryInfo = tk.Label(text = "Choose your settings, one window running different algorithm will be open for every check box checked")
         # columnspan is used to allow components be better spaced between each other
-        entryInfo.grid(row = 0, column = 0, columnspan=10)
+        entryInfo.pack()
         # add rest of controlers
         self.addControlers()
 #-------------------------------------------------------------------------------------     
     def addControlers(self):
         """sets rest of gui"""
         info = tk.Label(text = "Choose what algorithms(crossover) you want to compare")
-        info.grid(row = 1, column = 0, sticky="w", columnspan=10)
+        info.pack()
         
         textAreaLabel1 = tk.Label(text = "How big population ? (best 100-500)")
-        textAreaLabel1.grid(row = 3, column = 0, sticky="w")
-       
+        textAreaLabel1.pack()
         self.populationSize = tk.Entry()
-        self.populationSize.grid(row = 3, column = 1,sticky="w")
+        self.populationSize.pack()
        
         textAreaLabel2 = tk.Label(text = "How many points ? (best 20-50)")
-        textAreaLabel2.grid(row = 4, column = 0, sticky="w")
+        textAreaLabel2.pack()
         
         self.numOfPoints = tk.Entry()
-        self.numOfPoints.grid(row = 4, column = 1, sticky="W")
+        self.numOfPoints.pack()
        
         self.checkBoxDict["ramdom"] = tk.BooleanVar()
         checkButton1 = tk.Checkbutton( text="Pure randomness approach", variable=self.checkBoxDict["ramdom"])
-        checkButton1.grid(row = 5, column = 0, sticky="W")
+        checkButton1.pack()
         checkButton1.config(state='disabled')
         
         self.checkBoxDict["pmx"] = tk.BooleanVar()
         checkButton2 = tk.Checkbutton( text="PMX crossover", variable=self.checkBoxDict["pmx"])
-        checkButton2.grid(row = 6, column = 0, sticky="W")
+        checkButton2.pack()
         
         self.checkBoxDict["mutation"] = tk.BooleanVar()
         checkButton3 = tk.Checkbutton( text="Only mutation no crossover", variable=self.checkBoxDict["mutation"]   )
-        checkButton3.grid(row = 7, column = 0, sticky="W")
+        checkButton3.pack()
         checkButton3.config(state='disabled')
         
         startButton = tk.Button(text = "Start", bd = 3, bg = "#20aa20", command = lambda:self.start())
-        startButton.grid(row = 8, sticky = "nswe", columnspan=10)
+        startButton.pack()
 #-------------------------------------------------------------------------------------
     def start(self):
         """inits comparison of choosen functions"""
@@ -87,5 +88,20 @@ class StartFrame(tk.Frame):
             self.numOfPoints.insert(0,"This was not an INT!")
         
         if self.checkBoxDict["pmx"].get():
-            self.controller.show_frame(CanvasFrame)
+            self.run()
 #-------------------------------------------------------------------------------------     
+    def run(self):
+        listOfCities = rmg.genRandomListOfPoints(self.numOfPointsVal,800,400)
+        mutateChance = 0.15
+        mutateRate = 0.15
+        pop = Population.Population(self.populationSizeVal,listOfCities, mutateChance, mutateRate)
+        manager = EvolutionManager.EvolutionManager(300,pop)
+        event = mp.Event()
+        self.controller.setEvent(event)
+        self.controller.setForClossingEvent(manager)
+        pro = t.Thread(target = self.controller.genethicAlgorithmPart)
+        pro.start()
+        self.rootWindow.after(111,self.controller.addChangerListiner())
+        self.controller.show_frame(CanvasFrame)
+        
+        

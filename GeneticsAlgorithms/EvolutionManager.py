@@ -48,10 +48,13 @@ class EvolutionManager:
                 event.set()
                 print("Iteration num ",x,"Fitness of best one is ",self.population.bestSalesman)
 #             self.canvas.updateFrame(self.population.bestSalesman.dna.getAsListOfTuple())
-                if x == 1000000:
+                if x == 10000:
                     self.stop = True;
                 x += 1
-                print(self.stop)
+                if self.stop:
+                    break
+            if self.stop:
+                break
 #-------------------------------------------------------------------------------------------
     def getList(self, li):
         print(li)
