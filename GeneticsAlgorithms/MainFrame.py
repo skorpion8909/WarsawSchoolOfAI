@@ -21,7 +21,7 @@ import StartFrame
 #-------------------------------------------------------------------------------------     
 class MainFrame(tk.Tk):
     """ This is main class for managing different views(windows) """
-    def onClosing(self):
+    def onClossing(self):
         self.manager.stopMainLoop()
         self.destroy()
 #-------------------------------------------------------------------------------------     
@@ -29,41 +29,40 @@ class MainFrame(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         # init main frame
         container = tk.Frame(self)
-        
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-        
+        container.grid(row = 0, column = 0, sticky = "nwse")
+#         container.grid_rowconfigure(0, weight=1)
+#         container.grid_columnconfigure(0, weight=1)
+         
         # init dict for storing avaliable frames
         self.frames = {}
+        # init frame add to dict
+        frame = CanvasFrame.CanvasFrame(container, self)
+        self.frames[CanvasFrame] = frame
         
         # init frame add to dict
         frame = StartFrame.StartFrame(container, self)
         self.frames[StartFrame] = frame
 
-        # init frame add to dict
-        frame = CanvasFrame.CanvasFrame(container, self)
-        self.frames[CanvasFrame] = frame
         
         # add close window event handler
-        self.protocol("WM_DELETE_WINDOW", self.onClosing)
+        self.protocol("WM_DELETE_WINDOW", self.onClossing)
         # load canvas as first
         self.show_frame(CanvasFrame)
 #------------------------------------------------------------------------------------- 
     def show_frame(self, cont):
         """ makes choosen frame visibale at top"""
         # get window
-        frame = self.frames[cont]
+        self.topFrame = self.frames[cont]
         # .lift() should also works
         # make window in front
-        frame.tkraise()
+        self.topFrame.tkraise()
         # set gird position
-        frame.grid(row = 0, column = 0, sticky = "nwse")
 #-------------------------------------------------------------------------------------     
     def getCurrentTopFrame(self):
         """ returns top frame object"""
         return self.topFrame
 #-------------------------------------------------------------------------------------     
-    def setForClosingEvent(self, manager):
+    def setForClossingEvent(self, manager):
         """ sets thread variable for future stoping when app is being closed"""
         self.manager = manager
 #-------------------------------------------------------------------------------------     

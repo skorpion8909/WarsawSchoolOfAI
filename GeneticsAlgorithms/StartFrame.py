@@ -28,9 +28,6 @@ class StartFrame(tk.Frame):
         # stores starting options
         self.checkBoxDict = dict()
         
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-
         # add start info
         entryInfo = tk.Label(text = "Choose your settings, one window running different algorithm will be open for every check box checked")
         # columnspan is used to allow components be better spaced between each other
