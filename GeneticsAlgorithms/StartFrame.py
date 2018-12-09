@@ -67,8 +67,8 @@ class StartFrame(tk.Frame):
         checkButton3.pack()
         checkButton3.config(state='disabled')
         
-        startButton = tk.Button(text = "Start", bd = 3, bg = "#20aa20", command = lambda:self.start())
-        startButton.pack()
+        self.startButton = tk.Button(text = "Start", bd = 3, bg = "#20aa20", command = lambda:self.start())
+        self.startButton.pack()
 #-------------------------------------------------------------------------------------
     def start(self):
         """inits comparison of choosen functions"""
@@ -92,8 +92,8 @@ class StartFrame(tk.Frame):
 #-------------------------------------------------------------------------------------     
     def run(self):
         listOfCities = rmg.genRandomListOfPoints(self.numOfPointsVal,800,400)
-        mutateChance = 0.15
-        mutateRate = 0.15
+        mutateChance = 0.10
+        mutateRate = 0.01
         pop = Population.Population(self.populationSizeVal,listOfCities, mutateChance, mutateRate)
         manager = EvolutionManager.EvolutionManager(300,pop)
         event = mp.Event()
@@ -101,7 +101,9 @@ class StartFrame(tk.Frame):
         self.controller.setForClossingEvent(manager)
         pro = t.Thread(target = self.controller.genethicAlgorithmPart)
         pro.start()
-        self.rootWindow.after(111,self.controller.addChangerListiner())
+        self.rootWindow.after(300,self.controller.addChangerListiner())
         self.controller.show_frame(CanvasFrame)
+        self.controller.getCurrentTopFrame().updateFrame(pop.bestSalesman.dna.getAsListOfTuple())
+        self.startButton.config(state = "disabled")
         
         

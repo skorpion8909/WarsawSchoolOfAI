@@ -24,6 +24,7 @@ class MainFrame(tk.Tk):
     def onClossing(self):
         self.manager.stopMainLoop()
         self.destroy()
+        sys.exit()
 #-------------------------------------------------------------------------------------   
     def setEvent(self,event):
         self.event = event
@@ -84,7 +85,6 @@ class MainFrame(tk.Tk):
         best = None
         print("Starting listiner thread")
         while True:
-            print("x")
             #wait for info about event
             self.event.wait()
             #get new possible best one and old one store for future comparing
