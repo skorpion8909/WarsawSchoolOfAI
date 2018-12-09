@@ -27,10 +27,6 @@ class EvolutionManager:
 #             distance = str(x.distance)
 #             string = string + " "+ distance
         co = 0
-        for x in sorted_salesmanList:
-            print(sorted_salesmanList[len(sorted_salesmanList)-co-1].distance)
-            co += 1
-            print(co)
         print("Best one ever",self.population.bestSalesman.distance)
         print("Best from pop -->",sorted_salesmanList[0].distance)
 #-------------------------------------------------------------------------------------------

@@ -176,7 +176,6 @@ class Population:
         parent2Dna = parent2.dna.chromosom
         parent1Dna = parent1.dna.chromosom
       
-        # sets how often mutation will happen, 0 is never 1 is always
 #         if self.mutateChance > r.uniform(0,1):
 #             self.mutate(parent1Dna)
 #         if self.mutateChance > r.uniform(0,1):
