@@ -34,16 +34,22 @@ def doesNotHaveTheSameDNA(salesman,listOfSalesmen):
     return returnValue
 #------------------------------------------------------------------------------
 class Population:
-    def __init__(self,populationSize,listOfPoints):
+    def __init__(self, populationSize, listOfPoints, mutateChance, mutateRate):
         """init list of possible Salesman paths"""
         startTime = datetime.now()
+        # set mutate change
+        self.mutateChance = mutateChance
         self.populationSize = populationSize
         # end program if starting len of list with points is less then 3
         if len(listOfPoints) <= 2:
             sys.exit("The size of list with points must be grater then ",len(listOfPoints),".");
         self.salesmanList = list()
         # determine how often mutation will happen
-        self.mutationRate = 0.05
+        self.mutateRate = mutateRate
+        if int(round(self.populationSize*self.mutateRate/100)) < 1:
+            self.howManyPoints = 1
+        else:
+            self.howManyPoints = int(round(self.populationSize*self.mutateRate/100)) 
         # if populationSize is less then 3
         if populationSize <= 3:
             print("Population size must be bigger then ",populationSize,"\n","Population size set to 10")
@@ -54,7 +60,6 @@ class Population:
             self.salesmanList.append(Salesman.Salesman(listOfPoints)) 
         self.summedFitness = self.getSummedFitnessAndSetBestOne()
         print("New generation was done in ",(datetime.now() - startTime).total_seconds())
-
  #------------------------------------------------------------------------------      
     def getSummedFitnessAndSetBestOne(self):
         """ return summed fitness and sets best salesman as variable"""
@@ -131,6 +136,7 @@ class Population:
     def fillRestOfListWithSalesmenFromCrossover(self,nextPopulation):
         """ sets list of salesman with new generated salesmen """
         leftSpace = self.populationSize - len(nextPopulation)
+        print(leftSpace, " <-----------")
         self.salesmanList = list(nextPopulation)
         for x in range(0,leftSpace):
             parent1 = r.choice(nextPopulation)
@@ -150,13 +156,14 @@ class Population:
                if ran != kwargs["used"]:
                    return ran 
 #------------------------------------------------------------------------------
-    def mutate(self,offspring, mutateChance):
+    def mutate(self,offspring):
         """ swaps randomly two elements of list"""
-        if 1 - r.uniform(0,1) < mutateChance:
-            position1 = self.getRandInt(size = len(offspring),)
-            position2 = self.getRandInt(size = len(offspring), used = position1)
-            print(position1,"  ", position2)
-            offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
+        
+        for x in range(0,r.randint(0,self.howManyPoints)):
+            if 1 - r.uniform(0,1) < self.mutateChance:
+                position1 = self.getRandInt(size = len(offspring),)
+                position2 = self.getRandInt(size = len(offspring), used = position1)
+                offspring[position1] , offspring[position2] = offspring[position1], offspring[position2]
 #------------------------------------------------------------------------------
     def crossoverPMX(self,parent1,parent2):
         """ returns 2 offspring(salesman object) from two 2 parents"""
@@ -170,9 +177,10 @@ class Population:
         parent1Dna = parent1.dna.chromosom
       
         # sets how often mutation will happen, 0 is never 1 is always
-        mutateChance = 0.2
-        self.mutate(parent1Dna,mutateChance)
-        self.mutate(parent2Dna,mutateChance)
+#         if self.mutateChance > r.uniform(0,1):
+#             self.mutate(parent1Dna)
+#         if self.mutateChance > r.uniform(0,1):
+#             self.mutate(parent2Dna)
         
         numOfPoints = len(parent1Dna)
         # -2 and after -1,  +1 makes sure that between split points there will always at least 1 value
@@ -209,8 +217,8 @@ class Population:
         if offspringDna2.__contains__(0):
             # fill rest of dna
             self.fillDna(offspringDna2, parent1Dna)
-        self.mutate(offspringDna2,mutateChance)
-        self.mutate(offspringDna1,mutateChance)
+        self.mutate(offspringDna2)
+        self.mutate(offspringDna1)
         return Salesman.Salesman(offspringDna1),Salesman.Salesman(offspringDna2)
 #------------------------------------------------------------------------------
 

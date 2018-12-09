@@ -11,13 +11,12 @@ import time
 import operator
 #-------------------------------------------------------------------------------------------
 class EvolutionManager:
-    def __init__(self, numOfGenerations, population, algoType):
+    def __init__(self, numOfGenerations,population):
         """Takes number of generations and Population() object"""
         self.numOfGenerations = numOfGenerations
         self.population = population
         self.pause = False
         self.stop = False
-        self.algoType = algoType
         print("After init EvolutionManager")
 #-------------------------------------------------------------------------------------------
     def displayPopulation(self):
@@ -27,6 +26,11 @@ class EvolutionManager:
 #             string = ""
 #             distance = str(x.distance)
 #             string = string + " "+ distance
+        co = 0
+        for x in sorted_salesmanList:
+            print(sorted_salesmanList[len(sorted_salesmanList)-co-1].distance)
+            co += 1
+            print(co)
         print("Best one ever",self.population.bestSalesman.distance)
         print("Best from pop -->",sorted_salesmanList[0].distance)
 #-------------------------------------------------------------------------------------------
@@ -37,8 +41,7 @@ class EvolutionManager:
             while not self.pause and not self.stop:
 #                 for x in range(0,self.numOfGenerations):
                 # generate next population
-                if "pmx" in self.algoType:
-                    self.population.nextGeneration()
+                self.population.nextGeneration()
                 # display on consol info about new population
                 self.displayPopulation()
               # notify about new best solution
@@ -46,7 +49,7 @@ class EvolutionManager:
                 print("Iteration num ",x,"Fitness of best one is ",self.population.bestSalesman)
 #             self.canvas.updateFrame(self.population.bestSalesman.dna.getAsListOfTuple())
                 if x == 1000000:
-                    self.pause = True;
+                    self.stop = True;
                 x += 1
                 print(self.stop)
 #-------------------------------------------------------------------------------------------

@@ -12,8 +12,8 @@ class CanvasFrame(tk.Frame):
     """ This is main class for managing displaying visual changes to a path"""
 #-------------------------------------------------------------------------------------     
     def __init__(self, parent, controller):
-        self.rootWindow = controller
         tk.Frame.__init__(self,parent)
+        self.rootWindow = controller
         wid = 800
         hei = 400
         self.canvas = tk.Canvas(self, width = wid, height = hei)

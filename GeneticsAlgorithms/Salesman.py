@@ -19,7 +19,7 @@ def distanceBetweenPoints(firstGenom,secoundGenom):
     p2 = secoundGenom.tupleXY  # get tuple from Genom Object 2
    
     # returns simple = sqrt((x1 - x2)**2 + (y1,y2)**2)
-    return (m.sqrt(m.pow(p1[0] - p2[0],2)) + m.pow((p1[1] - p2[1]),2))
+    return m.sqrt(m.pow(p1[0] - p2[0],2) + m.pow(p1[1] - p2[1],2))
 #------------------------------------------------------------------------------
 class Salesman:
 #---------------------------------------------------------------------------

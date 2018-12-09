@@ -17,43 +17,50 @@ import threading as t
 import RandomMapGenerator as rmg
 import CanvasFrame
 import sys
+import StartFrame
 #-------------------------------------------------------------------------------------     
 class MainFrame(tk.Tk):
     """ This is main class for managing different views(windows) """
     def onClosing(self):
-        self.destroy()
         self.manager.stopMainLoop()
+        self.destroy()
 #-------------------------------------------------------------------------------------     
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         # init main frame
         container = tk.Frame(self)
-        container.pack(side="top", fill="both", expand = True)
 
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        # init frames dict
+
         self.frames = {}
-        # init canvas
+        
+#         frame = StartFrame.StartFrame(container, self)
+#         self.frames[StartFrame] = frame
+#         frame.grid(row = 0, column = 0, sticky = "nwse")
+
         frame = CanvasFrame.CanvasFrame(container, self)
-        # add frame to frames dict
         self.frames[CanvasFrame] = frame
-        # expend frame
-        frame.grid(row=0, column=0, sticky="nsew")
+        frame.grid(row = 0, column = 0, sticky = "nwse")
+        
         # add close window event handler
         self.protocol("WM_DELETE_WINDOW", self.onClosing)
         # load canvas
         self.show_frame(CanvasFrame)
+#------------------------------------------------------------------------------------- 
     def getCurrentTopFrame(self):
-        return self.frames[CanvasFrame]
+        """ returns top frame object"""
+        return self.topFrame
 #-------------------------------------------------------------------------------------     
     def show_frame(self, cont):
         # add class to map
         frame = self.frames[cont]
+        print(frame)
         # move canvas to front
+        print("Tk trise Przed")
+        # self.topFrame.lift() should also works
         frame.tkraise()
-        print("After tkrasie")
-        print("after start")
+        print("po")
 #-------------------------------------------------------------------------------------     
     def setForClosingEvent(self, manager):
         """ sets thread variable for future stoping when app is being closed"""
