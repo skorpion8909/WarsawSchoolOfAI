@@ -65,5 +65,6 @@ class Salesman:
 #---------------------------------------------------------------------------
     def countFitness(self):
         """Count fitness for this Salesman"""
-        return (1.0/self.distance)
+#         return m.sqrt((1.0/self.distance))
+        return m.pow((1.0/self.distance),2)
 #TEST

@@ -5,7 +5,7 @@
     Order determined the path: from first element of list to last element
     
     
-    1.) This class manage selection(pool selection), fitness, crossover and elitism
+    1.) This class manage selection(pool selection) with elitism, fitness, crossover and mutation
 
 '''
 
@@ -126,13 +126,15 @@ class Population:
         # as long as count did not reach 50% of len of population size
         while count < stop:
             # choose a random value between 0 and 1
-            randomValue = r.uniform(0,1.0)*1000
+            randomValue = r.uniform(0,1)
             # get next element form list
             salesman = next(iterList)
             # if rounded to 3rd decimal point probability for this salesman is grater then random value
-            if(round((salesman.fitness*1.0/self.summedFitness)*1000.0,5) > (1 - randomValue)):
-                # this show why randomValue is multiply
-                print(round((salesman.fitness*1.0/self.summedFitness)*1000.0,5), (1 - randomValue))
+            persentageToOthers = round((salesman.fitness*1.0/self.summedFitness)*100.0,5)
+            randomValueRound = round(randomValue,5)
+            print(persentageToOthers,  randomValueRound)
+            if(persentageToOthers > randomValueRound):
+                # this show why persentageToOthers is multiply
                 # add that element to a list that will be returned
                 listToReturn.append(salesman)
                 # increase var count by 1 to allowed the loop stop when we got all needed objects
@@ -169,7 +171,6 @@ class Population:
 #------------------------------------------------------------------------------
     def mutate(self,offspring):
         """ swaps randomly two elements of list"""
-        
 #         for x in range(0,r.randint(0,self.howManyPoints)):
         if 1 - r.uniform(0,1) < self.mutateChance:
             position1 = self.getRandInt(size = len(offspring),)
