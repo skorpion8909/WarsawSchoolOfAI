@@ -28,7 +28,7 @@ class EvolutionManager:
         # get random list
         listOfCities = rmg.genRandomListOfPoints(numOfPointsVal,800,400)
         # how often will mutation occur
-        self.mutateRate = 0.15
+        self.mutateRate = 0.1
         # not use
         self.mutateChance = 1
         self.populationSizeVal = populationSizeVal
@@ -57,6 +57,8 @@ class EvolutionManager:
         co = 0
         print("Best one ever",self.population.bestSalesman.distance)
         print("Best from pop -->",sorted_salesmanList[0].distance)
+        print("Worst from pop -->",sorted_salesmanList[-1].distance)
+        print("Size ", len(sorted_salesmanList) )
 #-------------------------------------------------------------------------------------------
     def startTraining(self):
         """Starts training sequence"""

@@ -67,4 +67,5 @@ class Salesman:
         """Count fitness for this Salesman"""
 #         return m.sqrt((1.0/self.distance))
         return m.pow((1.0/self.distance),2)
+#         return (1.0/self.distance)
 #TEST
