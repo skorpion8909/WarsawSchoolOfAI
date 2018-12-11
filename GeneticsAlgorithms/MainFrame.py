@@ -72,7 +72,7 @@ class MainFrame(tk.Tk):
 #-------------------------------------------------------------------------------------     \
     def genethicAlgorithmPart(self):
         """begins the training sequence"""
-        self.manager.startTraining(self.event)
+        self.manager.startTraining()
 #-------------------------------------------------------------------------------------   
     def addChangerListiner(self):
         """ makes a new thread in widget process to monitor changes to be displayed"""

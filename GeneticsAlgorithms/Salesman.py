@@ -26,13 +26,13 @@ class Salesman:
     def __init__(self,listOfPoints):
         x = r.sample(listOfPoints, len(listOfPoints))
         self.dna = DNA.Dna(x)
-        self.distance = self.countFitnes()
-        self.fitness = 1.0/self.distance              
+        self.distance = self.countDistance()
+        self.fitness = self.countFitness()              
 #---------------------------------------------------------------------------
     def setDnaList(self,list):
         self.dna.setDnaList(list)
-        self.distance = self.countFitnes()
-        self.fitness = 1.0/self.distance 
+        self.distance = self.countDistance()
+        self.fitness = self.countFitness()
 #---------------------------------------------------------------------------
     def __str__(self):
         return str("Fitness is " + str(self.fitness) +" "+ str(self.dna))
@@ -47,8 +47,8 @@ class Salesman:
         else:
             return False
 #------------------------------------------------------------------------------
-    def countFitnes(self):
-        """Count fitness for this Salesman"""
+    def countDistance(self):
+        """Count distance for this Salesman"""
         listOfPoint = self.dna.chromosom
         running = True
         listCycle = cycle(listOfPoint)                  # this lets to take 2 elements of list every one step of loop
@@ -63,4 +63,7 @@ class Salesman:
                 running = False                         # prevent next loop cycle
         return distance
 #---------------------------------------------------------------------------
+    def countFitness(self):
+        """Count fitness for this Salesman"""
+        return (1.0/self.distance)
 #TEST

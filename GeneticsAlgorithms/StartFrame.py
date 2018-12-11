@@ -8,11 +8,9 @@ import random as r
 from itertools import cycle
 import tkinter as tk
 import EvolutionManager
-import Population
 import multiprocessing as mp
 import time
 import threading as t
-import RandomMapGenerator as rmg
 import CanvasFrame
 import sys
 #-------------------------------------------------------------------------------------     
@@ -88,22 +86,13 @@ class StartFrame(tk.Frame):
             self.numOfPoints.insert(0,"This was not an INT!")
         
         if self.checkBoxDict["pmx"].get():
-            self.run()
+            self.initFrameAction()
 #-------------------------------------------------------------------------------------     
-    def run(self):
-        listOfCities = rmg.genRandomListOfPoints(self.numOfPointsVal,800,400)
-        mutateChance = 0.10
-        mutateRate = 0.01
-        pop = Population.Population(self.populationSizeVal,listOfCities, mutateChance, mutateRate)
-        manager = EvolutionManager.EvolutionManager(300,pop)
-        event = mp.Event()
-        self.controller.setEvent(event)
-        self.controller.setForClossingEvent(manager)
-        pro = t.Thread(target = self.controller.genethicAlgorithmPart)
-        pro.start()
-        self.rootWindow.after(300,self.controller.addChangerListiner())
-        self.controller.show_frame(CanvasFrame)
-        self.controller.getCurrentTopFrame().updateFrame(pop.bestSalesman.dna.getAsListOfTuple())
+    def initFrameAction(self):
+        """ prepare algorithm logic"""
+        # init logic
+        em = EvolutionManager.EvolutionManager(self.numOfPointsVal, self.populationSizeVal, self.rootWindow, self.controller)
+        # make start button disabled
         self.startButton.config(state = "disabled")
         
         
