@@ -47,7 +47,7 @@ class MainFrame(tk.Tk):
          # add close window event handler
         self.protocol("WM_DELETE_WINDOW", self.onClossing)
         # load canvas
-        self.show_frame(StartFrame)
+        self.show_frame(CanvasFrame)
 #------------------------------------------------------------------------------------- 
     def show_frame(self, cont):
         """ makes choosen frame visibale at top"""
@@ -71,7 +71,7 @@ class MainFrame(tk.Tk):
         self.manager = manager
 #-------------------------------------------------------------------------------------     \
     def genethicAlgorithmPart(self):
-        """begins the training sequence"""
+        """begin training sequence"""
         self.manager.startTraining()
 #-------------------------------------------------------------------------------------   
     def addChangerListiner(self):

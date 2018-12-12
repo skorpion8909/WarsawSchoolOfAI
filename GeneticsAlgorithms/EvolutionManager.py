@@ -27,10 +27,10 @@ class EvolutionManager:
         self.stop = False
         # get random list
         listOfCities = rmg.genRandomListOfPoints(numOfPointsVal,800,400)
-        # how often will mutation occur
-        self.mutateRate = 0.1
         # not use
-        self.mutateChance = 1
+        self.mutateRate = 0
+        # how often will mutation occur
+        self.mutateChance = 0.03
         self.populationSizeVal = populationSizeVal
         # population size must be even
         self.checkPopulationSize()
@@ -62,11 +62,10 @@ class EvolutionManager:
 #-------------------------------------------------------------------------------------------
     def startTraining(self):
         """Starts training sequence"""
-        x = 0
+        x = 1
         self.pause = False
         while not self.stop:
             while not self.pause and not self.stop:
-#                 for x in range(0,self.numOfGenerations):
                 # generate next population
                 self.population.nextGeneration()
                 # display on consol info about new population
