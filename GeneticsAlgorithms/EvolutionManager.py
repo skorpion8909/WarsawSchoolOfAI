@@ -30,7 +30,7 @@ class EvolutionManager:
         # not use
         self.mutateRate = 0
         # how often will mutation occur
-        self.mutateChance = 0.03
+        self.mutateChance = 0.01
         self.populationSizeVal = populationSizeVal
         # population size must be even
         self.checkPopulationSize()
