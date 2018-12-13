@@ -29,26 +29,28 @@ class StartFrame(tk.Frame):
         self.checkBoxDict = dict()
         
         # add start info
-        entryInfo = tk.Label(text = "Choose your settings, one window running different algorithm will be open for every check box checked")
-        # columnspan is used to allow components be better spaced between each other
-        entryInfo.pack()
+#         entryInfo = tk.Label(text = "Choose your settings, one window running different algorithm will be open for every check box checked")
+#         # columnspan is used to allow components be better spaced between each other
+#         entryInfo.pack()
         # add rest of controlers
         self.addControlers()
 #-------------------------------------------------------------------------------------     
     def addControlers(self):
         """sets rest of gui"""
-        info = tk.Label(text = "Choose what algorithms(crossover) you want to compare")
-        info.pack()
+#         info = tk.Label(text = "Choose what algorithms(crossover) you want to compare")
+#         info.pack()
         
-        textAreaLabel1 = tk.Label(text = "How big population ? (best 100-500)")
+        textAreaLabel1 = tk.Label(text = "How big population ? (best 250-1000)")
         textAreaLabel1.pack()
         self.populationSize = tk.Entry()
+        self.populationSize.insert(0,250)
         self.populationSize.pack()
        
-        textAreaLabel2 = tk.Label(text = "How many points ? (best 20-50)")
+        textAreaLabel2 = tk.Label(text = "How many points ? (best working 15-25)")
         textAreaLabel2.pack()
         
         self.numOfPoints = tk.Entry()
+        self.numOfPoints.insert(0,18)
         self.numOfPoints.pack()
        
         self.checkBoxDict["ramdom"] = tk.BooleanVar()

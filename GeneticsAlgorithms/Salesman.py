@@ -144,7 +144,7 @@ class Salesman:
 #     #end of loop=        
 #     # another way for a selection
 #     # sortedList = sorted(currentPopulationList, key=lambda x: x.fitness, reverse = False)
-#     # listToReturn = sortedList(:len(sortedList))
+#     # listToReturn = sortedList(:len(sortedList)*50.0//100)
 #     # return listToReturn
 #   
 #     return listToReturn
