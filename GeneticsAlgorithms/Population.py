@@ -132,12 +132,12 @@ class Population:
             randomValue = r.uniform(0,1)
             # get next element form list
             salesman = next(iterList)
-            # if rounded to 3rd decimal point probability for this salesman is grater then random value
-            persentageToOthers = round((salesman.fitness*1.0/self.summedFitness)*10.0,5)
-            randomValueRound = round(randomValue,5)
-            if(persentageToOthers > randomValueRound):
+            
+            persentageToOthers = (salesman.fitness/self.summedFitness*1.0)
+            if(persentageToOthers > randomValue):
                 # this show why persentageToOthers is multiply
-#             print(persentageToOthers,  randomValueRound)
+#                 print(persentageToOthers,  randomValue) # here is happaning something strange, un # this and 
+                                                             # something like this (salesman.fitness*1.0/self.summedFitness)*1000 on top
                 # add that element to a list that will be returned
                 listToReturn.append(salesman)
                 # increase var count by 1 to allowed the loop stop when we got all needed objects
@@ -165,7 +165,6 @@ class Population:
             count += 2
             if leftSpace - count == 0:
                 break
-        print(len(self.salesmanList) , " < sl len")
 #------------------------------------------------------------------------------
     def getRandInt(self,**kwargs):
         """ returns random int in rage of list size -1"""
@@ -207,7 +206,7 @@ class Population:
         numOfPoints = len(parent1Dna)
         # -2 and after -1,  +1 makes sure that between split points there will always at least 1 value
         rsp1 = r.randint(0,numOfPoints-2) # random split point
-        maxDistance = rsp1 + rsp1*5.0//100
+        maxDistance = rsp1 + rsp1*80.0//100
         if maxDistance > lenght-1:
             rsp2 = lenght-1
         else:
@@ -255,7 +254,7 @@ class Population:
         offspringDna2 = parent2.dna.chromosom
         offspringDna1 = parent1.dna.chromosom
         mutateChance = 0.6
-        self.mutate(offspringDna2,mutateChance)
+        self.mutate(offspringDna2,mutadteChance)
         self.mutate(offspringDna1,mutateChance)
         return Salesman.Salesman(offspringDna1),Salesman.Salesman(offspringDna2)
 #------------------------------------------------------------------------------    
@@ -263,8 +262,4 @@ class Population:
 # Test _str
 # p = Population(2500,[(0,4),(4,2),(5,2),(0,10),(4,12),(2,0),(12,8)])
 # print(p)
-arr = [0] * 10
-bar = [3,4,5,6,7,8,0]
-arr[2:4] = [bar[aa] for aa in range(2,4)]
 
-print(arr)

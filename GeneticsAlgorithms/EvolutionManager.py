@@ -68,7 +68,7 @@ class EvolutionManager:
             while not self.pause and not self.stop:
                 # generate next population
                 self.population.nextGeneration()
-                # display on consol info about new population
+                # display on console info about new population
                 self.displayPopulation()
               # notify about new best solution
                 self.event.set()
