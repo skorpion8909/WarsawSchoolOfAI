@@ -203,9 +203,8 @@ class Population:
 #         if self.mutateChance > r.uniform(0,1):
 #             self.mutate(parent2Dna)
         
-        numOfPoints = len(parent1Dna)
         # -2 and after -1,  +1 makes sure that between split points there will always at least 1 value
-        rsp1 = r.randint(0,numOfPoints-2) # random split point
+        rsp1 = r.randint(0,lenght-2) # random split point
         maxDistance = rsp1 + rsp1*80.0//100
         if maxDistance > lenght-1:
             rsp2 = lenght-1
@@ -218,7 +217,7 @@ class Population:
         
         # stage 2 is adding all genes from parent that are not in conflict
         # for len of dna
-        for x in range(0,len(parent1Dna)):
+        for x in range(0,lenght):
             # if offspring does not contain that genom already pass it
             if not offspringDna1.__contains__(parent1Dna[x]):    
                 # pass it    
