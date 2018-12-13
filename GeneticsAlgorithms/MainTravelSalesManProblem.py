@@ -10,16 +10,7 @@
     1.) This class is main class for this project
 
 """
-import Population
-import EvolutionManager
-import random as r
-import tkinter as tk
-import EvolutionManager
-import Population
-import multiprocessing as mp
-import time
-import threading as t
-import RandomMapGenerator as rmg
+
 import MainFrame
 
 #-------------------------------------------------------------------------------------
