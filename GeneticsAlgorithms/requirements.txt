@@ -47,7 +47,7 @@ idna==2.7
 imgdiff==1.7.0
 importlib-metadata==0.6
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 Keras==2.1.5
 Keras-Applications==1.0.6
 Keras-Preprocessing==1.0.5
