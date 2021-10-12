@@ -62,7 +62,7 @@ more-itertools==4.3.0
 neat-python==0.92
 nltk==3.3
 numpy==1.15.4
-opencv-python==3.4.3.18
+opencv-python==4.2.0.32
 pandas==0.22.0
 path.py==11.5.0
 pbr==5.1.1
